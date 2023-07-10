@@ -1,127 +1,19 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact, addContact } from '../redux/contacts';
-import { changeFilter } from '../redux/filter';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
-  const dispatch = useDispatch();
-
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase()),
-  );
-
-  const handleAddContact = newContact => {
-    const isContactExists = contacts.some(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase(),
-    );
-
-    if (isContactExists) {
-      alert(`${newContact.name} is already in contacts`);
-      return false;
-    }
-
-    dispatch(addContact({ ...newContact, id: newContact.name }));
-    return true;
-  };
-
-  const handleFilterChange = value => {
-    dispatch(changeFilter(value));
-  };
-
-  const onDeleteContact = contactId => {
-    dispatch(deleteContact(contactId));
-  };
 
   return (
     <div className="container">
       <h1 className="heading">Phonebook</h1>
-      <ContactForm onAddContact={handleAddContact} />
+      <ContactForm />
       <h2 className="contacts_title">Contacts</h2>
-      <Filter filter={filter} onFilterChange={handleFilterChange} />
-      {filteredContacts.length > 0 ? (
-        <ContactList
-          contacts={filteredContacts}
-          onDeleteContact={onDeleteContact}
-        />
-      ) : (
-        <p className="contacts_not">No contacts found</p>
-      )}
+      <Filter />
+      <ContactList />
     </div>
   );
 };
 
 export default App;
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import ContactForm from './ContactForm';
-// import ContactList from './ContactList';
-// import Filter from './Filter';
-
-// const App = () => {
-//   const [contacts, setContacts] = useState(
-//     () => JSON.parse(localStorage.getItem('contacts')) || []
-//   );
-//   const [filter, setFilter] = useState('');
-
-//   useEffect(() => {
-//     localStorage.setItem('contacts', JSON.stringify(contacts));
-//   }, [contacts]);
-
-//   const handleAddContact = newContact => {
-//     const isContactExists = contacts.some(
-//       contact => contact.name.toLowerCase() === newContact.name.toLowerCase(),
-//     );
-//     if (isContactExists) {
-//       alert(`${newContact.name} is already in contacts`);
-//       return false;
-//     }
-//     const newContacts = [...contacts, { ...newContact, id: newContact.name }];
-
-//     setContacts(newContacts);
-
-//     return true;
-//   };
-
-//   const handleFilterChange = value => {
-//     setFilter(value);
-//   };
-
-//   const onDeleteContact = contactId => {
-//     const newContacts = contacts.filter(contact => contact.id !== contactId);
-//     setContacts(newContacts);
-//   };
-
-//   const filteredContacts = contacts.filter(contact =>
-//     contact.name.toLowerCase().includes(filter.toLowerCase()),
-//   );
-
-//   return (
-//     <div className="container">
-//       <h1 className="heading">Phonebook</h1>
-//       <ContactForm onAddContact={handleAddContact} />
-//       <h2 className="contacts_title">Contacts</h2>
-//       <Filter filter={filter} onFilterChange={handleFilterChange} />
-//       {filteredContacts.length > 0 ? (
-//         <ContactList
-//           contacts={filteredContacts}
-//           onDeleteContact={onDeleteContact}
-//         />
-//       ) : (
-//         <p className="contacts_not">No contacts found</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default App;
-

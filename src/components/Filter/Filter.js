@@ -1,11 +1,15 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter } from '../../redux/selectors';
 import css from './filter.module.css';
 
-const Filter = ({ filter, onFilterChange }) => {
-
-  const handleFilterChange = event => {
-    const { value } = event.target; onFilterChange(value);
+const Filter = () => {
+  const dispatch = useDispatch();
+    const filter = useSelector(selectFilter);
+  
+  const handleFilterChange = (event) => {
+    const { value } = event.target;
+    dispatch(selectFilter(value));
   };
 
   return (
@@ -24,10 +28,5 @@ const Filter = ({ filter, onFilterChange }) => {
     </div>
   )
 }
-
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onFilterChange: PropTypes.func.isRequired,
-};
 
 export default Filter;
