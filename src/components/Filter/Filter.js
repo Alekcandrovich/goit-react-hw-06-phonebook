@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectFilter } from '../../redux/selectors';
+import { changeFilter } from '../../redux/filter';
 import css from './filter.module.css';
 
 const Filter = () => {
@@ -9,7 +10,7 @@ const Filter = () => {
   
   const handleFilterChange = (event) => {
     const { value } = event.target;
-    dispatch(selectFilter(value));
+    dispatch(changeFilter(value));
   };
 
   return (
